@@ -1,4 +1,4 @@
-import json, datetime, urllib.request
+import json, datetime, urllib.request, os.path
 
 
 class RatioObtainer:
@@ -10,6 +10,14 @@ class RatioObtainer:
         self.target = target
 
     def was_ratio_saved_today(self):
+        if os.path.isfile('ratios.json'):
+            f=open('ratios.json',)
+            check=json.load(f)
+            for i in check['date_fetched']:
+                pass
+            pass
+        else:
+            return False
         # TODO
         # This function checks if given ratio was saved today and if the file with ratios is created at all
         # should return false when file doesn't exist or if there's no today's exchange rate for given values at all

@@ -1,8 +1,14 @@
-# coding=utf-8
+from collections import Counter
 
-# input: array with multiple strings
-# expected output: rank of the 3 most often repeated words in given set of strings and number of times they occured, case insensitive
+#Wersja z wpisywaniem własnych zdań
+sentences=[]
+n=int(input("Ile zdań chcesz wpisać?\n"))
+for i in range(n):
+    word=str(input())
+    sentences.append(word)
 
+#Wersja z predefiniowaną tabelą, do wyboru do koloru
+"""""
 sentences = [
     'Taki mamy klimat',
     'Wszędzie dobrze ale w domu najlepiej',
@@ -21,11 +27,16 @@ sentences = [
     'Mam nadzieję, że poradzisz sobie z tym zadaniem bez problemu',
     'Nie powinno sprawić żadnego problemu, bo Google jest dozwolony',
 ]
+"""""
 
-# Example result:
-# 1. "mam" - 12
-# 2. "tak" - 5
-# 3. "z" - 2
+words=[]
+for i in range(len(sentences)):
+    temp=sentences[i].split()
+    for j in range(len(temp)):
+        words.append(temp[j].lower())
 
-
-# Good luck! You can write all the code in this file.
+c = Counter(words).most_common(3)
+print("Most common words in this list are:")
+print('1. "',c[0][0],'" - ',c[0][1],sep="")
+print('2. "',c[1][0],'" - ',c[1][1],sep="")
+print('3. "',c[2][0],'" - ',c[2][1],sep="")
