@@ -1,5 +1,7 @@
-import json, datetime, urllib.request, os.path
+import json, datetime, urllib.request, os.path, requests
 
+dirname = os.path.dirname(__file__)
+#filename = os.path.join(dirname, 'ratios.json')
 
 class RatioObtainer:
     base = None
@@ -10,33 +12,53 @@ class RatioObtainer:
         self.target = target
 
     def was_ratio_saved_today(self):
-        if os.path.isfile('ratios.json'):
-            f=open('ratios.json',)
+        filename = self.base+'2'+self.target+'.json'
+        filepath = os.path.join(dirname, filename)
+        if os.path.isfile(filepath)==True:
+            f=open(filepath,)
             check=json.load(f)
-            for i in check['date_fetched']:
-                pass
-            pass
+            date=(check.get('date_fetched'))
+            if datetime.datetime.now().strftime("%Y-%m-%d")!=date:
+                f.close
+                return False
+            else:
+                f.close
+                return True
         else:
+            f.close
             return False
-        # TODO
+
         # This function checks if given ratio was saved today and if the file with ratios is created at all
         # should return false when file doesn't exist or if there's no today's exchange rate for given values at all
         # should return true otherwise
-        pass
 
     def fetch_ratio(self):
-        # TODO
+        url = 'https://api.exchangerate.host/convert?from='+self.base+'&to='+self.target
+        print(url)
+        response = requests.get(url)
+        data = response.json()
+        if data.get('success')==True:
+            self.save_ratio(data.get('result'))
         # This function calls API for today's exchange ratio
         # Should ask API for today's exchange ratio with given base and target currency
         # and call save_ratio method to save it
         pass
 
     def save_ratio(self, ratio):
-        # TODO
+        filename = self.base+'2'+self.target+'.json'
+        filepath = os.path.join(dirname, filename)
+        f=open(filepath,'w')
+        rat={}
+        rat["base_currency"] = self.base
+        rat["target_currency"] = self.target
+        rat["date_fetched"] = datetime.datetime.now().strftime("%Y-%m-%d")
+        rat["ratio"] = ratio
+        rat=json.dumps(rat, indent=4, separators=(", ", " : "))
+        f.write(rat)
+        f.close
         # Should save or update exchange rate for given pair in json file
         # takes ratio as argument
         # example file structure is shipped in project's directory, yours can differ (as long as it works)
-        pass
 
     def get_matched_ratio_value(self):
         # TODO

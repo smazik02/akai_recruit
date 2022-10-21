@@ -1,0 +1,6 @@
+{
+    "base_currency" : "USD", 
+    "target_currency" : "EUR", 
+    "date_fetched" : "2022-10-21", 
+    "ratio" : 1.01
+}
