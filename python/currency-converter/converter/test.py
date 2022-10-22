@@ -7,8 +7,8 @@ ratio=1.01
 base='USD'
 target='EUR'
 
-#filename = base+'2'+target+'.json'
-filename = 'ratios.json'
+filename = base+'2'+target+'.json'
+#filename = self.base+'2'+self.target+'.json'
 filepath = os.path.join(dirname, filename)
 f=open(filepath,'w')
 rat={}

@@ -1,7 +1,6 @@
-import json, datetime, urllib.request, os.path, requests
+import json, datetime, os.path, requests
 
 dirname = os.path.dirname(__file__)
-#filename = os.path.join(dirname, 'ratios.json')
 
 class RatioObtainer:
     base = None
@@ -25,7 +24,6 @@ class RatioObtainer:
                 f.close
                 return True
         else:
-            f.close
             return False
 
         # This function checks if given ratio was saved today and if the file with ratios is created at all
@@ -34,15 +32,12 @@ class RatioObtainer:
 
     def fetch_ratio(self):
         url = 'https://api.exchangerate.host/convert?from='+self.base+'&to='+self.target
-        print(url)
-        response = requests.get(url)
-        data = response.json()
+        data = requests.get(url).json()
         if data.get('success')==True:
             self.save_ratio(data.get('result'))
         # This function calls API for today's exchange ratio
         # Should ask API for today's exchange ratio with given base and target currency
         # and call save_ratio method to save it
-        pass
 
     def save_ratio(self, ratio):
         filename = self.base+'2'+self.target+'.json'
@@ -61,6 +56,10 @@ class RatioObtainer:
         # example file structure is shipped in project's directory, yours can differ (as long as it works)
 
     def get_matched_ratio_value(self):
-        # TODO
+        filename = self.base+'2'+self.target+'.json'
+        filepath = os.path.join(dirname, filename)
+        f=open(filepath,)
+        check=json.load(f)
+        rtio=(check.get('ratio'))
+        return rtio
         # Should read file and receive exchange rate for given base and target currency from that file
-        pass
